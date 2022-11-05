@@ -9,19 +9,41 @@ body {
     background-color: rgb(249, 217, 122);
     color: white;
     display: flex;
+    flex-direction: column;
     padding: 24px;
     border-radius: 20px;
-    position: relative;
+}
+
+.pokemon-ID {
+    display: flex;
+    justify-content: flex-end;
 }
 
 #pokedex {
+    display: flex;
+    justify-content: space-around;
+}
 
+.pokemon-info h2 {
+    margin-top: 0px;
+    margin-bottom: 8px;
+    font-size: 1.5em;
+}
+
+.pokemon-type {
+    display: flex;
+    flex-direction: column;
+}
+
+.pokemon-type span {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    padding: 3px;
+    margin-bottom: 4px;
+    max-width: fit-content;
 }
 
 #pokemonImg {
     width: 125px;
     height: 125px;
-    position: absolute;
-    right: 50px;
-    top: 50px;
 }
