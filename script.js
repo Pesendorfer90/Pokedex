@@ -1,6 +1,8 @@
 let currentPokemon;
 let currentPokemonImg;
 let pokemonName;
+let type;
+let secondType;
 let id;
 let currentId = 0;
 let loadLimit = 30;
@@ -14,12 +16,37 @@ async function loadPokemonInfo() {
         let response = await fetch(url);
         currentPokemon = await response.json();
         console.log('Loaded Pokemon', currentPokemon);
-        currentPokemonImg = currentPokemon['sprites']['other']['dream_world']['front_default'];
-        pokemonName = currentPokemon['name']
+        collectdata();
 
         renderPokemonInfo();
     }
 }
+
+// collecting all data for cardContainer
+function collectdata() {
+    currentPokemonImg = currentPokemon['sprites']['other']['dream_world']['front_default'];
+    pokemonName = currentPokemon['name'];
+    collectType();
+    collectColor();
+}
+
+
+function collectType() {
+    type = `<span>${currentPokemon['types']['0']['type']['name']}</span>`;
+    // search for second type
+    let j = currentPokemon['types']['length'];
+    if (j == '2') {
+        secondType = `<span>${currentPokemon['types']['1']['type']['name']}</span>`;
+    } else {
+        secondType = '';
+    }
+}
+
+
+function collectColor() {
+    
+}
+
 
 
 function renderPokemonInfo() {
@@ -35,8 +62,8 @@ function renderPokemonInfo() {
                 <div class="pokemon-info">
                     <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
                     <div class="pokemon-type">
-                        <span>grass</span>
-                        <span>poison</span>
+                        ${type}
+                        ${secondType}
                     </div>
                 </div>
                 <div>
