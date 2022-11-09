@@ -4,7 +4,26 @@ body {
     background-color: rgb(206, 206, 206);
 }
 
-
+:root {
+    --c-grass: #46d1b0;
+    --c-fire: #fc6c6c;
+    --c-water: #59acf8;
+    --c-bug: #a17973;
+    --c-normal: #A8A77A;
+    --c-poison: #7c538b;
+    --c-electric: #ffcf49;
+    --c-ground: #b0756d;
+    --c-fairy: #D685AD;
+    --c-fighting: #C22E28;
+    --c-psychic: #F95587;
+    --c-rock: #B6A136;
+    --c-ground: #E2BF65;
+    --c-ghost: #735797;
+    --c-ice: #96D9D6;
+    --c-dark: #705746;
+    --c-steel: #B7B7CE;
+    --c-dragon: #6F35FC;
+}
 
 .header {
     background-color: white;
@@ -41,8 +60,9 @@ body {
 
 .pokedex-card {
     height: 150px;
-    width: 300px;
-    background-color: rgb(249, 217, 122);
+    max-width: 4em;
+    min-width: 17em;
+    /* background-color: rgb(249, 217, 122); */
     color: white;
     display: flex;
     flex-direction: column;
@@ -63,7 +83,7 @@ body {
 
 .pokedex {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .pokemon-info h2 {

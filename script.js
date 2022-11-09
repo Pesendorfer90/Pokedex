@@ -1,5 +1,6 @@
 let currentPokemon;
 let currentPokemonImg;
+let cardColor;
 let pokemonName;
 let type;
 let secondType;
@@ -12,7 +13,7 @@ let loadLimit = 30;
 async function loadPokemonInfo() {
     for (let i = currentId; i < loadLimit; i++) {
         id = i + 1;
-        let url = `https://pokeapi.co/api/v2/pokemon/${id}`;
+        let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
         console.log('Loaded Pokemon', currentPokemon);
@@ -27,7 +28,6 @@ function collectdata() {
     currentPokemonImg = currentPokemon['sprites']['other']['dream_world']['front_default'];
     pokemonName = currentPokemon['name'];
     collectType();
-    collectColor();
 }
 
 
@@ -43,17 +43,10 @@ function collectType() {
 }
 
 
-function collectColor() {
-    
-}
-
-
-
 function renderPokemonInfo() {
     document.getElementById('cardContainer').innerHTML += `
     <div class="card-container">
-        <div class="pokedex-card">
-
+        <div class="pokedex-card" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <div class="pokemon-ID">
                 <div class="ID-container">#${id}</div>
             </div>
