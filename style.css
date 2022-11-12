@@ -53,9 +53,12 @@ body {
 }
 
 .card-container {
-    padding: 12px;
+    margin: 12px;
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 
 .pokedex-card {
@@ -69,6 +72,16 @@ body {
     padding: 10px 20px 20px;
     border-radius: 20px;
 }
+
+.bg-img {
+    opacity: 0.2;
+    position: absolute;
+    height: 200px;
+    transform: rotate(-45deg);
+    top: 20px;
+    left: 150px;
+    z-index: 0;
+} 
 
 .pokemon-ID {
     display: flex;
@@ -84,6 +97,7 @@ body {
 .pokedex {
     display: flex;
     justify-content: space-between;
+    z-index: 1;
 }
 
 .pokemon-info h2 {

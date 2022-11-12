@@ -47,6 +47,7 @@ function renderPokemonInfo() {
     document.getElementById('cardContainer').innerHTML += `
     <div class="card-container">
         <div class="pokedex-card" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
+            <img class="bg-img" src="img/pokeball.png">
             <div class="pokemon-ID">
                 <div class="ID-container">#${id}</div>
             </div>
