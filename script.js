@@ -4,24 +4,63 @@ let cardColor;
 let pokemonName;
 let type;
 let secondType;
-let id;
+let id = 0;
+const maxID = 151;
 let currentId = 0;
 let loadLimit = 30;
+const pokemon = [];
+var loading = false;
 
+
+async function loadPokemonName() {
+    for (let i = 0; i < maxID; i++) {
+        j = i + 1;
+        let url = `https://pokeapi.co/api/v2/pokemon/${j}/`;
+        let response = await fetch(url);
+        arrayName = await response.json();
+        pokemon.push(arrayName['name'])
+    }
+    console.log('Loaded Pokemon', pokemon);
+}
 
 
 async function loadPokemonInfo() {
+    loading = true;
     for (let i = currentId; i < loadLimit; i++) {
-        id = i + 1;
-        let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
-        let response = await fetch(url);
-        currentPokemon = await response.json();
-        console.log('Loaded Pokemon', currentPokemon);
-        collectdata();
-
-        renderPokemonInfo();
+        if (id < maxID) {
+            id = i + 1;
+            let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
+            let response = await fetch(url);
+            currentPokemon = await response.json();
+            console.log('Loaded Pokemon', currentPokemon);
+            collectdata();
+            renderPokemonInfo();
+        }
+        loading = false;
     }
 }
+
+
+
+window.onscroll = function (ev) {
+    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+        // alert("you're at the bottom of the page");
+        loadMore();
+    }
+}
+
+
+function loadMore() {
+    if (loading == false) {
+        loadLimit += 30;
+        currentId += 30;
+        loadPokemonInfo();
+    } else {
+        setTimeout(15000);
+        loadMore()
+    }
+}
+
 
 // collecting all data for cardContainer
 function collectdata() {
@@ -45,7 +84,7 @@ function collectType() {
 
 function renderPokemonInfo() {
     document.getElementById('cardContainer').innerHTML += `
-    <div class="card-container">
+    <div class="pokedex-container">
         <div class="pokedex-card" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <img class="bg-img" src="img/pokeball.png">
             <div class="pokemon-ID">

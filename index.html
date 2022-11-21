@@ -8,13 +8,17 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
     <script src="script.js"></script>
+    <script src="search.js"></script>
     <title>Pokedex</title>
 </head>
 
-<body onload="loadPokemonInfo()">
+<body onload="loadPokemonInfo(), loadPokemonName()">
     <div class="header">
         <img class="Header-img" src="img/pokemon-logo.png">
-        <input class="search" type="text" id="" placeholder="Find Pokemon">
+        <div>
+            <input class="search" type="text" id="search" onkeydown="searchPokemon()" placeholder="Find Pokemon">
+            <div id="search-result"></div><!-- liste die unter der suchleiste aufplopt wenn man seinen ersten buchstzaben eingibt -->
+        </div>
     </div>
 
     <div class="card-container" id="cardContainer">
