@@ -11,7 +11,7 @@ let loadLimit = 30;
 const pokemon = [];
 var loading = false;
 
-
+// load pokemon Names in array for search function
 async function loadPokemonName() {
     for (let i = 0; i < maxID; i++) {
         j = i + 1;
@@ -23,7 +23,7 @@ async function loadPokemonName() {
     console.log('Loaded Pokemon', pokemon);
 }
 
-
+// collect information for rendering
 async function loadPokemonInfo() {
     loading = true;
     for (let i = currentId; i < loadLimit; i++) {
@@ -36,28 +36,26 @@ async function loadPokemonInfo() {
             collectdata();
             renderPokemonInfo();
         }
-        loading = false;
     }
+    loading = false;
 }
 
 
-
+// trigger function after scroll to the Bottom  
 window.onscroll = function (ev) {
     if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-        // alert("you're at the bottom of the page");
         loadMore();
     }
 }
 
-
+// set the load limit higher if the function loadPokemonInfo is not active otherwise wait 3 seconds and try again
 function loadMore() {
     if (loading == false) {
         loadLimit += 30;
         currentId += 30;
         loadPokemonInfo();
     } else {
-        setTimeout(15000);
-        loadMore()
+        setTimeout(function () {loadMore();}, 3000);
     }
 }
 
@@ -81,11 +79,11 @@ function collectType() {
     }
 }
 
-
+// create the divs with information for each Pokemon
 function renderPokemonInfo() {
     document.getElementById('cardContainer').innerHTML += `
     <div class="pokedex-container">
-        <div class="pokedex-card" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
+        <div class="pokedex-card" onclick="showFullInfo(${id})" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <img class="bg-img" src="img/pokeball.png">
             <div class="pokemon-ID">
                 <div class="ID-container">#${id}</div>
