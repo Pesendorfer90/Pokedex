@@ -16,8 +16,9 @@
     <div class="header">
         <img class="Header-img" src="img/pokemon-logo.png">
         <div>
-            <input class="search" type="text" id="search" onkeydown="searchPokemon()" placeholder="Find Pokemon">
-            <div id="search-result"></div><!-- liste die unter der suchleiste aufplopt wenn man seinen ersten buchstzaben eingibt -->
+            <input class="search" type="text" id="search" onkeydown="searchPokemon()" onclick="showSuggestion" placeholder="Find Pokemon">
+            <div class="d-none" id="search-result"></div><!-- liste die unter der suchleiste aufplopt wenn man seinen ersten buchstzaben eingibt -->
+            <div onclick="clearInput()" class="invisible-div d-none" id="invisible"></div>
         </div>
     </div>
 

@@ -25,6 +25,10 @@ body {
     --c-dragon: #6F35FC;
 }
 
+.d-none {
+    display: none !important;
+}
+
 .header {
     background-color: white;
     display: flex;
@@ -55,6 +59,30 @@ body {
     border-right: 4px solid rgb(246, 206, 59);
     font-size: 1em;
     font-weight: 500;
+    position: relative;
+    z-index: 3;
+}
+
+#search-result {
+    position: absolute;
+    border: 1px solid black;
+    width: 209px;
+    overflow: hidden;
+    height: 500px;
+    background-color: rgba(230, 230, 230, 0.808);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.invisible-div {
+    position: absolute;
+    background-color: #46d1b100;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    width: 100vw;
+    height: 100vh;
 }
 
 .card-container {
