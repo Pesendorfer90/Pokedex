@@ -33,7 +33,8 @@ async function loadPokemonInfo() {
             let response = await fetch(url);
             currentPokemon = await response.json();
             console.log('Loaded Pokemon', currentPokemon);
-            collectdata();
+            collectMainData();
+            collectType();
             renderPokemonInfo();
         }
     }
@@ -60,12 +61,11 @@ function loadMore() {
 }
 
 
-// collecting all data for cardContainer
-function collectdata() {
+// collecting name and img for cardContainer
+function collectMainData() {
     currentPokemonImg = currentPokemon['sprites']['other']['dream_world']['front_default'];
     pokemonName = currentPokemon['name'];
-    collectType();
-}
+    }
 
 
 function collectType() {

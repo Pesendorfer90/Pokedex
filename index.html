@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="img/pokeball.png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="fonts.css">
     <script src="script.js"></script>
@@ -23,7 +24,11 @@
         </div>
     </div>
 
-    <div class="card-container" id="cardContainer">
+    <div class="card-container" id="cardContainer"></div>
+
+    <div>
+        <div id="fullInfoCard" class="full-info-card"></div>
+        <div onclick="closeFullInfo()" class="invisible-div d-none" id="closeInfo"></div>
     </div>
 </body>
 
