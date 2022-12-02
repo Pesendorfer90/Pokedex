@@ -13,8 +13,7 @@ async function showFullInfo(infoId) {
         collectMainData();
         collectType();
         collectBodyProperties();
-
-
+        getAbilities();
         renderFullInfo(infoId);
     } else {
         setTimeout(function () { showFullInfo(); }, 3000);
@@ -23,29 +22,23 @@ async function showFullInfo(infoId) {
 
 
 function collectBodyProperties() {
-    let height = "";
-    let weight = "";
-    let baseExperience = "";
     height = currentPokemon['height'];
     weight = currentPokemon['weight'];
     baseExperience = currentPokemon['base_experience'];
-    // getAbilities();
 
     console.log('height', height);
     console.log('weight', weight);
     console.log('baseExperience', baseExperience);
-    console.log('abilities', getAbilities());
 }
 
 
 function getAbilities() {
-    let abilities = "";
+    abilities = '';
     for (i = 0; i < currentPokemon.abilities.length; i++) {
         ability = currentPokemon['abilities'][i]['ability']['name'];
         abilities += `${ability}, `;
     }
-    // console.log('abilities', abilities);
-    return abilities;
+    console.log('abilities', abilities);
 }
 
 
@@ -58,16 +51,17 @@ function getAbilities() {
 
 // ADD STOP SCROLL + STOP SCROLL IN SEARCH
 function renderFullInfo(infoId) {
+    document.getElementById('fullInfoCard').classList.remove("d-none");
     document.getElementById('closeInfo').classList.remove("d-none");
     document.getElementById('fullInfoCard').innerHTML = `
     <div class="info-container">
         <div class="pokedex-main-info" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <div class="info-ID">
-                <img class="back" src="">
+                <img class="close-arrow" src="img/arrow1.png">
                 <div class="ID-container">#${infoId}</div>
             </div>
         
-            <div class="pokedex">
+            <div class="main-info">
                 <div class="pokemon-info">
                     <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
                     <div class="pokemon-type">
@@ -75,17 +69,37 @@ function renderFullInfo(infoId) {
                         ${secondType}
                     </div>
                 </div>
-                <div>
-                    <img class="pokemonImg" src="${currentPokemonImg}">
+                <div class="full-img-container">
+                    <img class="pokemon-img-full" src="${currentPokemonImg}">
                 </div>
             </div>
             <img class="bg-img-full-info" src="img/pokeball.png">
         </div>
         <div class="detail">
             <div class="detail-nav"><p>About</p><p>Base Stats</p><p>Moves</p></div>
-            <div>About</div>
-            <div>Base Stats</div>
-            <div>Moves</div>
+            <div class="about-container">
+                <table>
+                    <tr>
+                        <td>Height</td>
+                        <td>${height}</td>
+                    </tr>
+                    <tr>
+                        <td>Height</td>
+                        <td>Height</td>
+                    </tr>
+                    <tr>
+                        <td>Abilities</td>
+                        <td>${abilities}</td>
+                    </tr>
+                </table>
+                <div>
+                    Evolution
+                </div>
+            </div>
+
+            <div class="base-stats-container">Base Stats</div>
+
+            <div class="moves-container">Moves</div>
         </div>
     </div>
     
@@ -96,4 +110,5 @@ function renderFullInfo(infoId) {
 function closeFullInfo() {
     document.getElementById('fullInfoCard').innerHTML = ''
     document.getElementById('closeInfo').classList.add("d-none");
+    document.getElementById('fullInfoCard').classList.add("d-none");
 }
