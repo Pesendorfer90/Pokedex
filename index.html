@@ -11,16 +11,18 @@
     <script src="script.js"></script>
     <script src="search.js"></script>
     <script src="fullInfo.js"></script>
+    <script src="shortfunction.js"></script>
     <title>Pokedex</title>
 </head>
 
-<body onload="loadPokemonInfo(), loadPokemonName()">
+<body id="bodyContainer" onload="loadPokemonInfo(), loadPokemonName()">
     <div class="header">
         <img class="Header-img" src="img/pokemon-logo.png">
         <div>
             <input class="search" type="text" id="search" onkeydown="searchPokemon()" onclick="showSuggestion" placeholder="Find Pokemon">
             <div class="d-none" id="search-result"></div><!-- liste die unter der suchleiste aufplopt wenn man seinen ersten buchstzaben eingibt -->
             <div onclick="clearInput()" class="invisible-div d-none" id="invisible"></div>
+            <div onclick="closeFullInfo()" class="invisible-div-full d-none" id="closeInfo"></div>
         </div>
     </div>
 
@@ -28,8 +30,10 @@
 
     <div>
         <div id="fullInfoCard" class="full-info-card d-none"></div>
-        <div onclick="closeFullInfo()" class="invisible-div d-none" id="closeInfo"></div>
+        <!-- <div onclick="closeFullInfo()" class="invisible-div d-none" id="closeInfo"></div> -->
     </div>
+
+    <div class="load-more d-none" id="loadMoreCards"><button class="load-btn" onclick="loadMore()">Load more</button></div>
 </body>
 
 </html>

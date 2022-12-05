@@ -10,6 +10,8 @@ let currentId = 0;
 let loadLimit = 30;
 const pokemon = [];
 var loading = false;
+var loadMain = false;
+let typeLength;
 
 // load pokemon Names in array for search function
 async function loadPokemonName() {
@@ -20,7 +22,6 @@ async function loadPokemonName() {
         arrayName = await response.json();
         pokemon.push(arrayName['name'])
     }
-    console.log('Loaded Pokemon', pokemon);
 }
 
 // collect information for rendering
@@ -28,26 +29,22 @@ async function loadPokemonInfo() {
     loading = true;
     for (let i = currentId; i < loadLimit; i++) {
         if (id < maxID) {
+            loadMain = true;
             id = i + 1;
             let url = `https://pokeapi.co/api/v2/pokemon/${id}/`;
             let response = await fetch(url);
             currentPokemon = await response.json();
-            console.log('Loaded Pokemon', currentPokemon);
             collectMainData();
             collectType();
             renderPokemonInfo();
+            checkForsecendType(id)
         }
     }
     loading = false;
+    loadMain = false;
+    checkScrollbar();
 }
 
-
-// trigger function after scroll to the Bottom  
-window.onscroll = function (ev) {
-    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
-        loadMore();
-    }
-}
 
 // set the load limit higher if the function loadPokemonInfo is not active otherwise wait 3 seconds and try again
 function loadMore() {
@@ -56,7 +53,7 @@ function loadMore() {
         currentId += 30;
         loadPokemonInfo();
     } else {
-        setTimeout(function () {loadMore();}, 3000);
+        setTimeout(function () { loadMore(); }, 3000);
     }
 }
 
@@ -65,23 +62,36 @@ function loadMore() {
 function collectMainData() {
     currentPokemonImg = currentPokemon['sprites']['other']['dream_world']['front_default'];
     pokemonName = currentPokemon['name'];
-    }
+}
 
 
 function collectType() {
-    type = `<span>${currentPokemon['types']['0']['type']['name']}</span>`;
+    type = currentPokemon['types']['0']['type']['name'];
     // search for second type
-    let j = currentPokemon['types']['length'];
-    if (j == '2') {
-        secondType = `<span>${currentPokemon['types']['1']['type']['name']}</span>`;
-    } else {
-        secondType = '';
+    typeLength = currentPokemon['types']['length'];
+    if (typeLength == '2') {
+        secondType = currentPokemon['types']['1']['type']['name'];
     }
 }
 
-// create the divs with information for each Pokemon
-function renderPokemonInfo() {
-    document.getElementById('cardContainer').innerHTML += `
+
+// see if there are 2 types in the api
+function checkForsecendType(id) {
+    if (typeLength == '1') {
+        if (loadMain == true) {
+            secondTypeMain = `secondType${id}`
+            document.getElementById(secondTypeMain).classList.add("d-none");
+        }
+        if (loadFullInfo == true) {
+            document.getElementById('secondTypeFull').classList.add("d-none");
+        }
+    }
+}
+
+
+    // create the divs with information for each Pokemon
+    function renderPokemonInfo() {
+        document.getElementById('cardContainer').innerHTML += `
     <div class="pokedex-container">
         <div class="pokedex-card" onclick="showFullInfo(${id})" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <img class="bg-img" src="img/pokeball.png">
@@ -93,8 +103,8 @@ function renderPokemonInfo() {
                 <div class="pokemon-info">
                     <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
                     <div class="pokemon-type">
-                        ${type}
-                        ${secondType}
+                        <span>${type}</span>
+                        <span id="secondType${id}">${secondType}</span>
                     </div>
                 </div>
                 <div>
@@ -104,4 +114,4 @@ function renderPokemonInfo() {
         </div>
     </div>
     `;
-}
+    }

@@ -1,12 +1,14 @@
 let height;
 let weight;
 let abilities;
-let baseExperience
+let baseExperience;
+var loadFullInfo = false;
 
 
 
 async function showFullInfo(infoId) {
     if (loading == false) {
+        loadFullInfo = true;
         let url = `https://pokeapi.co/api/v2/pokemon/${infoId}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
@@ -14,7 +16,10 @@ async function showFullInfo(infoId) {
         collectType();
         collectBodyProperties();
         getAbilities();
+        getEvolution(infoId);
         renderFullInfo(infoId);
+        checkForsecendType();
+        loadFullInfo = false;
     } else {
         setTimeout(function () { showFullInfo(); }, 3000);
     }
@@ -38,15 +43,16 @@ function getAbilities() {
         ability = currentPokemon['abilities'][i]['ability']['name'];
         abilities += `${ability}, `;
     }
+    abilities = abilities.slice(0, -2); 
     console.log('abilities', abilities);
 }
 
 
-
-
-
-
-
+async function getEvolution(infoId) {
+        let url = `https://pokeapi.co/api/v2/evolution-chain/${infoId}/`;
+        let responseEvo = await fetch(url);
+        currentEvo = await responseEvo.json();
+}
 
 
 // ADD STOP SCROLL + STOP SCROLL IN SEARCH
@@ -57,16 +63,16 @@ function renderFullInfo(infoId) {
     <div class="info-container">
         <div class="pokedex-main-info" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <div class="info-ID">
-                <img class="close-arrow" src="img/arrow1.png">
+                <img onclick="closeFullInfo()" class="close-arrow" src="img/arrow1.png">
                 <div class="ID-container">#${infoId}</div>
             </div>
         
             <div class="main-info">
                 <div class="pokemon-info">
                     <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
-                    <div class="pokemon-type">
-                        ${type}
-                        ${secondType}
+                    <div class="pokemon-type-full">
+                        <span>${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                        <span id="secondTypeFull">${secondType.charAt(0).toUpperCase() + secondType.slice(1)}</span>
                     </div>
                 </div>
                 <div class="full-img-container">
@@ -92,8 +98,8 @@ function renderFullInfo(infoId) {
                         <td>${abilities}</td>
                     </tr>
                 </table>
-                <div>
-                    Evolution
+                <div class="evolution">
+                    <h3>Evolution</h3>
                 </div>
             </div>
 
