@@ -22,16 +22,14 @@
             <input class="search" type="text" id="search" onkeydown="searchPokemon()" onclick="showSuggestion" placeholder="Find Pokemon">
             <div class="d-none" id="search-result"></div><!-- liste die unter der suchleiste aufplopt wenn man seinen ersten buchstzaben eingibt -->
             <div onclick="clearInput()" class="invisible-div d-none" id="invisible"></div>
-            <div onclick="closeFullInfo()" class="invisible-div-full d-none" id="closeInfo"></div>
         </div>
+    </div>
+    
+    <div>
+        <div id="fullInfoCard" class="full-info-card d-none"></div>
     </div>
 
     <div class="card-container" id="cardContainer"></div>
-
-    <div>
-        <div id="fullInfoCard" class="full-info-card d-none"></div>
-        <!-- <div onclick="closeFullInfo()" class="invisible-div d-none" id="closeInfo"></div> -->
-    </div>
 
     <div class="load-more d-none" id="loadMoreCards"><button class="load-btn" onclick="loadMore()">Load more</button></div>
 </body>

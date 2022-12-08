@@ -103,8 +103,8 @@ function checkForsecendType(id) {
                 <div class="pokemon-info">
                     <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
                     <div class="pokemon-type">
-                        <span>${type}</span>
-                        <span id="secondType${id}">${secondType}</span>
+                        <span>${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                        <span id="secondType${id}">${secondType.charAt(0).toUpperCase() + secondType.slice(1)}</span>
                     </div>
                 </div>
                 <div>

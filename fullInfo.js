@@ -12,6 +12,7 @@ async function showFullInfo(infoId) {
         let url = `https://pokeapi.co/api/v2/pokemon/${infoId}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
+        document.body.style = "overflow: hidden"
         collectMainData();
         collectType();
         collectBodyProperties();
@@ -41,7 +42,7 @@ function getAbilities() {
     abilities = '';
     for (i = 0; i < currentPokemon.abilities.length; i++) {
         ability = currentPokemon['abilities'][i]['ability']['name'];
-        abilities += `${ability}, `;
+        abilities += `${ability.charAt(0).toUpperCase() + ability.slice(1)}, `;
     }
     abilities = abilities.slice(0, -2); 
     console.log('abilities', abilities);
@@ -58,7 +59,6 @@ async function getEvolution(infoId) {
 // ADD STOP SCROLL + STOP SCROLL IN SEARCH
 function renderFullInfo(infoId) {
     document.getElementById('fullInfoCard').classList.remove("d-none");
-    document.getElementById('closeInfo').classList.remove("d-none");
     document.getElementById('fullInfoCard').innerHTML = `
     <div class="info-container">
         <div class="pokedex-main-info" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
@@ -87,11 +87,11 @@ function renderFullInfo(infoId) {
                 <table>
                     <tr>
                         <td>Height</td>
-                        <td>${height}</td>
+                        <td>0,${height}m</td>
                     </tr>
                     <tr>
-                        <td>Height</td>
-                        <td>Height</td>
+                        <td>Weight</td>
+                        <td>${weight}kg</td>
                     </tr>
                     <tr>
                         <td>Abilities</td>
@@ -108,13 +108,13 @@ function renderFullInfo(infoId) {
             <div class="moves-container">Moves</div>
         </div>
     </div>
-    
+    <div onclick="closeFullInfo()" class="invisible-div" id="closeInfo"></div>
     `
 }
 
 
 function closeFullInfo() {
     document.getElementById('fullInfoCard').innerHTML = ''
-    document.getElementById('closeInfo').classList.add("d-none");
     document.getElementById('fullInfoCard').classList.add("d-none");
+    document.body.style = "overflow: auto"
 }
