@@ -82,12 +82,16 @@ function renderFullInfo(infoId) {
             <img class="bg-img-full-info" src="img/pokeball.png">
         </div>
         <div class="detail">
-            <div class="detail-nav"><p>About</p><p>Base Stats</p><p>Moves</p></div>
-            <div class="about-container">
+            <div class="detail-nav">
+                <p onclick="switchToAbout()">About</p>
+                <p onclick="switchToStats()">Base Stats</p>
+                <p onclick="switchToMoves()">Moves</p>
+            </div>
+            <div class="about-container ease-in-out" id="about">
                 <table>
                     <tr>
                         <td>Height</td>
-                        <td>0,${height}m</td>
+                        <td>${height}0cm</td>
                     </tr>
                     <tr>
                         <td>Weight</td>
@@ -98,14 +102,50 @@ function renderFullInfo(infoId) {
                         <td>${abilities}</td>
                     </tr>
                 </table>
-                <div class="evolution">
+                <div class="evolution ">
                     <h3>Evolution</h3>
                 </div>
             </div>
 
-            <div class="base-stats-container">Base Stats</div>
+            <div class="base-stats-container ease-in-out" id="baseStats">
+                <div>
+                    <p>HP</p>
+                    <p></p>
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
+                </div>
 
-            <div class="moves-container">Moves</div>
+                <div>
+                    <p>Attack</p>
+                    <p></p>
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
+                </div>
+
+                <div>
+                    <p>Defense</p>
+                    <p></p>
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
+                </div>
+
+                <div>
+                    <p>Special Attack</p>
+                    <p></p>
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
+                </div>
+
+                <div>
+                    <p>Special Defense</p>
+                    <p></p>
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
+                </div>
+
+                <div>
+                    <p>Speed</p>
+                    <p></p>
+                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
+                </div>
+            </div>
+
+            <div class="moves-container ease-in-out" id="moves">Moves</div>
         </div>
     </div>
     <div onclick="closeFullInfo()" class="invisible-div" id="closeInfo"></div>
@@ -117,4 +157,25 @@ function closeFullInfo() {
     document.getElementById('fullInfoCard').innerHTML = ''
     document.getElementById('fullInfoCard').classList.add("d-none");
     document.body.style = "overflow: auto"
+}
+
+
+function switchToAbout(){
+    document.getElementById('about').style = 'transform: translateX(0%)';
+    document.getElementById('baseStats').style = 'transform: translateX(100%)';
+    document.getElementById('moves').style = 'transform: translateX(200%)';
+}
+
+
+function switchToStats(){
+    document.getElementById('about').style = 'transform: translateX(-100%)';
+    document.getElementById('baseStats').style = 'transform: translateX(0%)';
+    document.getElementById('moves').style = 'transform: translateX(100%)';
+}
+
+
+function switchToMoves(){
+    document.getElementById('about').style = 'transform: translateX(-200%)';
+    document.getElementById('baseStats').style = 'transform: translateX(-100%)';
+    document.getElementById('moves').style = 'transform: translateX(0%)';
 }
