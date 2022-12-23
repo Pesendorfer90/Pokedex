@@ -8,21 +8,27 @@ let id = 0;
 const maxID = 151;
 let currentId = 0;
 let loadLimit = 30;
-const pokemon = [];
+let pokemon = [];
 var loading = false;
 var loadMain = false;
+var loadJSON = false;
 let typeLength;
+let pokemonJSON = [];
 
-// load pokemon Names in array for search function
-async function loadPokemonName() {
+// load pokemon Names and all JSON in array's
+async function loadPokemonNameAndJSON() {
+    loadJSON = true;
     for (let i = 0; i < maxID; i++) {
         j = i + 1;
         let url = `https://pokeapi.co/api/v2/pokemon/${j}/`;
         let response = await fetch(url);
-        arrayName = await response.json();
-        pokemon.push(arrayName['name'])
+        arrayPokemon = await response.json();
+        pokemon.push(arrayPokemon['name'])
+        pokemonJSON.push(arrayPokemon)
     }
+    loadJSON = false;
 }
+
 
 // collect information for rendering
 async function loadPokemonInfo() {
@@ -91,7 +97,7 @@ function checkForsecendType(id) {
 
     // create the divs with information for each Pokemon
     function renderPokemonInfo() {
-        document.getElementById('cardContainer').innerHTML += `
+        document.getElementById('cardContainer').innerHTML += /*html*/ `
     <div class="pokedex-container">
         <div class="pokedex-card" onclick="showFullInfo(${id})" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <img class="bg-img" src="img/pokeball.png">

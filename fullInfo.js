@@ -7,7 +7,7 @@ var loadFullInfo = false;
 
 
 async function showFullInfo(infoId) {
-    if (loading == false) {
+    if (loading == false, loadJSON == false) {
         loadFullInfo = true;
         let url = `https://pokeapi.co/api/v2/pokemon/${infoId}/`;
         let response = await fetch(url);
@@ -17,13 +17,13 @@ async function showFullInfo(infoId) {
         collectType();
         collectBodyProperties();
         getAbilities();
-        getEvolution(infoId);
         renderFullInfo(infoId);
         checkForsecendType();
+        getEvolution(infoId);
         loadFullInfo = false;
-    } else {
-        setTimeout(function () { showFullInfo(); }, 3000);
-    }
+    }// else {
+    //     setTimeout(function () { showFullInfo(); }, 3000);
+    // }
 }
 
 
@@ -49,17 +49,102 @@ function getAbilities() {
 }
 
 
-async function getEvolution(infoId) {
-        let url = `https://pokeapi.co/api/v2/evolution-chain/${infoId}/`;
-        let responseEvo = await fetch(url);
-        currentEvo = await responseEvo.json();
+async function getEvolution() {
+    let speciesUrl = currentPokemon['species']['url'];
+    let species = await fetch(speciesUrl);
+    let speciesAsJson = await species.json();
+    if (speciesAsJson.evolution_chain !== null) {
+        let evolutionChainUrl = speciesAsJson['evolution_chain']['url'];
+        let evolutionChain = await fetch(evolutionChainUrl);
+        let evolutionChainJSON = await evolutionChain.json();
+        getEvolutionChain(evolutionChainJSON);
+    }
 }
 
 
-// ADD STOP SCROLL + STOP SCROLL IN SEARCH
+function getEvolutionChain(evolutionChainJSON) {
+    let evolutionChain = evolutionChainJSON['chain']['evolves_to'];
+    if (evolutionChain.length < 1) {
+        noEvolutionChain();
+    } else if (evolutionChain[0]['evolves_to'].length == 0) {
+        getFirstEvolutionStep(evolutionChainJSON);
+        getSecondEvolutionStep(evolutionChainJSON);
+    } else if (evolutionChain[0]['evolves_to'].length > 0) {
+        getFirstEvolutionStep(evolutionChainJSON);
+        getSecondEvolutionStep(evolutionChainJSON);
+        getThirdEvolutionStep(evolutionChainJSON);
+    }
+}
+
+
+function getFirstEvolutionStep(evolutionChainJSON) {
+    let evolutionSteps = document.getElementById('evoChain');
+    let firstEvoStepName = evolutionChainJSON['chain']['species']['name'];
+    let firstEvoStepNameFormatted = firstEvoStepName.charAt(0).toUpperCase() + firstEvoStepName.slice(1);
+    for (let i = 0; i < maxID - 1; i++) {
+        const firstEvoPokemon = pokemonJSON[i];
+        let firstEvoPokemonName = firstEvoPokemon['name'];
+        let firstEvoPokemonNameFormatted = firstEvoPokemonName.charAt(0).toUpperCase() + firstEvoPokemonName.slice(1)
+        let firstEvoPokemonImage = pokemonJSON[i]['sprites']['other']['official-artwork']['front_default'];
+        if (firstEvoStepNameFormatted == firstEvoPokemonNameFormatted) {
+            evolutionSteps.innerHTML += renderEvolutionStep(firstEvoStepNameFormatted, firstEvoPokemonImage);
+        }
+    }
+}
+
+
+function getSecondEvolutionStep(evolutionChainJSON) {
+    let evolutionSteps = document.getElementById('evoChain');
+    let secondEvoStepName = evolutionChainJSON['chain']['evolves_to'][0]['species']['name'];
+    let secondEvoStepNameFormatted = secondEvoStepName.charAt(0).toUpperCase() + secondEvoStepName.slice(1);
+    for (let i = 0; i < maxID; i++) {
+        const secondEvoPokemon = pokemonJSON[i];
+        let secondEvoPokemonName = secondEvoPokemon['name'];
+        let secondEvoPokemonNameFormatted = secondEvoPokemonName.charAt(0).toUpperCase() + secondEvoPokemonName.slice(1)
+        let secondEvoPokemonImage = pokemonJSON[i]['sprites']['other']['official-artwork']['front_default'];
+        if (secondEvoStepNameFormatted == secondEvoPokemonNameFormatted) {
+            evolutionSteps.innerHTML += renderEvolutionStep(secondEvoStepNameFormatted, secondEvoPokemonImage);
+        }
+    }
+}
+
+
+function getThirdEvolutionStep(evolutionChainJSON) {
+    let evolutionSteps = document.getElementById('evoChain');
+    let thirdEvoStepName = evolutionChainJSON['chain']['evolves_to'][0]['evolves_to'][0]['species']['name'];
+    let thirdEvoStepNameFormatted = thirdEvoStepName.charAt(0).toUpperCase() + thirdEvoStepName.slice(1);
+    for (let i = 0; i < maxID; i++) {
+        const thirdEvoPokemon = pokemonJSON[i];
+        let thirdEvoPokemonName = thirdEvoPokemon['name'];
+        let thirdEvoPokemonNameFormatted = thirdEvoPokemonName.charAt(0).toUpperCase() + thirdEvoPokemonName.slice(1)
+        let thirdEvoPokemonImage = pokemonJSON[i]['sprites']['other']['official-artwork']['front_default'];
+        if (thirdEvoStepNameFormatted == thirdEvoPokemonNameFormatted) {
+            evolutionSteps.innerHTML += renderEvolutionStep(thirdEvoStepNameFormatted, thirdEvoPokemonImage);
+        }
+    }
+}
+
+
+function renderEvolutionStep(evoStepNameFormatted, evoPokemonImage) {
+    return /*html*/ `
+        <div class="evo-steps">
+            <img src="${evoPokemonImage}">
+            <p>${evoStepNameFormatted}</p>
+        </div>
+        `;
+}
+
+
+// if there is no evolution
+function noEvolutionChain() {
+    document.getElementById('evoChain').innerHTML += `No evolutions available`
+}
+
+
+// create an info card with all the details about the selected pokemeon
 function renderFullInfo(infoId) {
     document.getElementById('fullInfoCard').classList.remove("d-none");
-    document.getElementById('fullInfoCard').innerHTML = `
+    document.getElementById('fullInfoCard').innerHTML = /*html*/ `
     <div class="info-container">
         <div class="pokedex-main-info" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
             <div class="info-ID">
@@ -87,69 +172,40 @@ function renderFullInfo(infoId) {
                 <p onclick="switchToStats()">Base Stats</p>
                 <p onclick="switchToMoves()">Moves</p>
             </div>
-            <div class="about-container ease-in-out" id="about">
-                <table>
-                    <tr>
-                        <td>Height</td>
-                        <td>${height}0cm</td>
-                    </tr>
-                    <tr>
-                        <td>Weight</td>
-                        <td>${weight}kg</td>
-                    </tr>
-                    <tr>
-                        <td>Abilities</td>
-                        <td>${abilities}</td>
-                    </tr>
-                </table>
-                <div class="evolution ">
-                    <h3>Evolution</h3>
+        
+            <div class="slider">
+                <div class="about-container" id="about">
+                    <table>
+                        <tr>
+                            <td>Height</td>
+                            <td>${height}0cm</td>
+                        </tr>
+                        <tr>
+                            <td>Weight</td>
+                            <td>${weight}kg</td>
+                        </tr>
+                        <tr>
+                            <td>Abilities</td>
+                            <td>${abilities}</td>
+                        </tr>
+                    </table>
+                    <div class="evolution">
+                        <h3>Evolution</h3>
+                        <div class="evo-container" id="evoChain"></div>
+                    </div>
                 </div>
+
+                <div class="base-stats-container z-index-1" id="baseStats">
+                <canvas class="stats-chart" id="baseStatsChart"></canvas>
+                </div>
+
+                <div class="moves-container d-none" id="moves">Moves</div>
             </div>
-
-            <div class="base-stats-container ease-in-out" id="baseStats">
-                <div>
-                    <p>HP</p>
-                    <p></p>
-                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
-                </div>
-
-                <div>
-                    <p>Attack</p>
-                    <p></p>
-                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
-                </div>
-
-                <div>
-                    <p>Defense</p>
-                    <p></p>
-                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
-                </div>
-
-                <div>
-                    <p>Special Attack</p>
-                    <p></p>
-                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
-                </div>
-
-                <div>
-                    <p>Special Defense</p>
-                    <p></p>
-                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
-                </div>
-
-                <div>
-                    <p>Speed</p>
-                    <p></p>
-                    <div class="progress-bar" id="progress-bar" role="progressbar" aria-label="Example with label" style="width: 0%;"></div>
-                </div>
-            </div>
-
-            <div class="moves-container ease-in-out" id="moves">Moves</div>
         </div>
     </div>
     <div onclick="closeFullInfo()" class="invisible-div" id="closeInfo"></div>
     `
+
 }
 
 
@@ -161,21 +217,22 @@ function closeFullInfo() {
 
 
 function switchToAbout(){
-    document.getElementById('about').style = 'transform: translateX(0%)';
-    document.getElementById('baseStats').style = 'transform: translateX(100%)';
-    document.getElementById('moves').style = 'transform: translateX(200%)';
+    document.getElementById('about').classList.remove("d-none");
+    document.getElementById('baseStats').classList.add("d-none");
+    document.getElementById('moves').classList.add("d-none");
 }
 
 
 function switchToStats(){
-    document.getElementById('about').style = 'transform: translateX(-100%)';
-    document.getElementById('baseStats').style = 'transform: translateX(0%)';
-    document.getElementById('moves').style = 'transform: translateX(100%)';
+    document.getElementById('about').classList.add("d-none");
+    document.getElementById('baseStats').classList.remove("d-none");
+    document.getElementById('moves').classList.add("d-none");
+    drawChart();
 }
 
 
 function switchToMoves(){
-    document.getElementById('about').style = 'transform: translateX(-200%)';
-    document.getElementById('baseStats').style = 'transform: translateX(-100%)';
-    document.getElementById('moves').style = 'transform: translateX(0%)';
+    document.getElementById('about').classList.add("d-none");
+    document.getElementById('baseStats').classList.add("d-none");
+    document.getElementById('moves').classList.remove("d-none");
 }

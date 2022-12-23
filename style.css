@@ -29,6 +29,18 @@ body {
     display: none !important;
 }
 
+.z-index-1 {
+    z-index: -90;
+}
+
+.z-index2 {
+    z-index: 2;
+}
+
+.z-index3 {
+    z-index: 3;
+}
+
 .header {
     background-color: white;
     display: flex;
@@ -313,21 +325,19 @@ body {
     width: 400px;
     border-radius: 40px;
     margin-top: -40px;
-    overflow: hidden;
+    /* overflow: hidden; */
     z-index: 1;
 }
 
 .detail-nav {
     display: flex;
-    flex-direction: row;
     padding-top: 40px;
     justify-content: space-around;
     cursor: pointer;
 }
 
-.ease-in-out {
-    transition: transform 225ms ease-in-out;
-
+.slider {
+    display: flex;
 }
 
 /* About start */
@@ -351,18 +361,40 @@ body {
     text-align: center;
 }
 
+.evo-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.evo-container img {
+    max-width: 95px;
+    max-height: 90px;
+    flex-direction: column;
+}
+
 /* About end */
 
 /* Stats start */
 
 .base-stats-container{
-    transform: translateX(100%);
+    padding-left: 24px;
+    padding-right: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.stats-chart {
+    width: 351px;
+    height: 351px;
 }
 
 /* Stats end */
 
 .moves-container{
-    transform: translateX(200%);
+    padding-left: 24px;
+    padding-right: 24px;
 }
 
  
@@ -381,6 +413,42 @@ body {
 
     .Header-img {
         width: 150px;
+    }
+    
+    .full-info-card {
+        position: unset;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2;
+    }
+
+    .info-container {
+        position: fixed;
+        display: flex;
+        justify-content: normal;
+        align-items: normal;
+        flex-direction: column;
+        width: 100vw;
+        height: 100vh;
+        z-index: 3;
+        top: 0;
+    }
+
+    .pokedex-main-info {
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+        width: 100vw;
+    }
+
+    .detail {
+        height: 100%;
+        width: 100vw;
+        border-radius: 0px;
+        position: absolute;
+        top: 375px;
     }
 }
 
