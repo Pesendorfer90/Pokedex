@@ -1,3 +1,6 @@
+chartStats = [];
+
+
 function drawChart() {
     const ctx = document.getElementById('baseStatsChart').getContext('2d');
     const myChart = new Chart(ctx, {
@@ -5,8 +8,8 @@ function drawChart() {
         data: {
             labels: ['HP', 'Attack', 'Defense', 'Sp-Attack', 'Sp-Defense', 'Speed'],
             datasets: [{
-                label: '# of Votes',
-                data: [80, 82, 83, 100, 100, 80],
+                label: '',
+                data: [chartStats[0], chartStats[1], chartStats[2], chartStats[3], chartStats[4], chartStats[5]],
                 backgroundColor: [
                     'rgb(40, 167, 69)',
                     'rgb(220, 53, 69)',
@@ -35,14 +38,22 @@ function drawChart() {
                 legend: {
                     display: false
                 },
-                // datalabels: {
-                //     display: true,
-                //     color: 'rgb(239, 239, 239)',
-                // },
+                datalabels: {
+                    display: true,
+                    color: 'rgb(239, 239, 239)',
+                },
                 tooltip: {
                     enabled: false
                 }
             }
         }
     });
+}
+
+function getStats() {
+    chartStats = [];
+    for (let i = 0; i < currentPokemon['stats'].length; i++) {
+        stat = currentPokemon['stats'][i]['base_stat'];
+        chartStats.push(stat);
+    }
 }

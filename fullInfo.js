@@ -20,6 +20,9 @@ async function showFullInfo(infoId) {
         renderFullInfo(infoId);
         checkForsecendType();
         getEvolution(infoId);
+        getMoves();
+        getStats();
+        setTimeout(function () { checkNumberOfEvolutions(); }, 500);
         loadFullInfo = false;
     }// else {
     //     setTimeout(function () { showFullInfo(); }, 3000);
@@ -87,7 +90,7 @@ function getFirstEvolutionStep(evolutionChainJSON) {
         let firstEvoPokemonNameFormatted = firstEvoPokemonName.charAt(0).toUpperCase() + firstEvoPokemonName.slice(1)
         let firstEvoPokemonImage = pokemonJSON[i]['sprites']['other']['official-artwork']['front_default'];
         if (firstEvoStepNameFormatted == firstEvoPokemonNameFormatted) {
-            evolutionSteps.innerHTML += renderEvolutionStep(firstEvoStepNameFormatted, firstEvoPokemonImage);
+            evolutionSteps.innerHTML += renderEvolutionStep(firstEvoStepNameFormatted, firstEvoPokemonImage, i);
         }
     }
 }
@@ -103,7 +106,7 @@ function getSecondEvolutionStep(evolutionChainJSON) {
         let secondEvoPokemonNameFormatted = secondEvoPokemonName.charAt(0).toUpperCase() + secondEvoPokemonName.slice(1)
         let secondEvoPokemonImage = pokemonJSON[i]['sprites']['other']['official-artwork']['front_default'];
         if (secondEvoStepNameFormatted == secondEvoPokemonNameFormatted) {
-            evolutionSteps.innerHTML += renderEvolutionStep(secondEvoStepNameFormatted, secondEvoPokemonImage);
+            evolutionSteps.innerHTML += renderEvolutionStep(secondEvoStepNameFormatted, secondEvoPokemonImage, i);
         }
     }
 }
@@ -119,15 +122,15 @@ function getThirdEvolutionStep(evolutionChainJSON) {
         let thirdEvoPokemonNameFormatted = thirdEvoPokemonName.charAt(0).toUpperCase() + thirdEvoPokemonName.slice(1)
         let thirdEvoPokemonImage = pokemonJSON[i]['sprites']['other']['official-artwork']['front_default'];
         if (thirdEvoStepNameFormatted == thirdEvoPokemonNameFormatted) {
-            evolutionSteps.innerHTML += renderEvolutionStep(thirdEvoStepNameFormatted, thirdEvoPokemonImage);
+            evolutionSteps.innerHTML += renderEvolutionStep(thirdEvoStepNameFormatted, thirdEvoPokemonImage, i);
         }
     }
 }
 
 
-function renderEvolutionStep(evoStepNameFormatted, evoPokemonImage) {
+function renderEvolutionStep(evoStepNameFormatted, evoPokemonImage, i) {
     return /*html*/ `
-        <div class="evo-steps">
+        <div class="evo-steps" onclick="showFullInfo(${i + 1})">
             <img src="${evoPokemonImage}">
             <p>${evoStepNameFormatted}</p>
         </div>
@@ -138,6 +141,17 @@ function renderEvolutionStep(evoStepNameFormatted, evoPokemonImage) {
 // if there is no evolution
 function noEvolutionChain() {
     document.getElementById('evoChain').innerHTML += `No evolutions available`
+}
+
+
+function getMoves() {
+    movesContainer = document.getElementById('moves');
+    for (let i = 0; i < currentPokemon['moves'].length; i++) {
+        move = currentPokemon['moves'][i]['move']['name'];
+        movesContainer.innerHTML += `
+        <li>${move}</li>&nbsp; 
+        `
+    }
 }
 
 
@@ -164,7 +178,9 @@ function renderFullInfo(infoId) {
                     <img class="pokemon-img-full" src="${currentPokemonImg}">
                 </div>
             </div>
+            <div class="bg-container">
             <img class="bg-img-full-info" src="img/pokeball.png">
+            </div>
         </div>
         <div class="detail">
             <div class="detail-nav">
@@ -199,13 +215,12 @@ function renderFullInfo(infoId) {
                 <canvas class="stats-chart" id="baseStatsChart"></canvas>
                 </div>
 
-                <div class="moves-container d-none" id="moves">Moves</div>
+                <div class="moves-container d-none" id="moves"></div>
             </div>
         </div>
     </div>
     <div onclick="closeFullInfo()" class="invisible-div" id="closeInfo"></div>
     `
-
 }
 
 

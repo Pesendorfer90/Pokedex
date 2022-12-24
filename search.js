@@ -32,9 +32,9 @@ function showNames(search) {
     list.innerHTML = '';
 
     for (let index = 0; index < pokemon.length; index++) {
-        let name = pokemon[index];
+        let name = pokemonJSON[index]['name'];
         if(name.toLocaleLowerCase().includes(search)) {
-        list.innerHTML += `<p onclick="${[index + 1]}">${pokemon[index]}</p>`;
+        list.innerHTML += `<p onclick="showFullInfo(${index + 1}), clearInput()">${name.charAt(0).toUpperCase() + name.slice(1)}</p>`;
         } // else hinzufügen falls nichts gefunden wird
     }
 }

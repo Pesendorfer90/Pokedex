@@ -24,3 +24,15 @@ window.onscroll = function (ev) {
 }
 
 
+function checkNumberOfEvolutions() {
+    evoDiv = document.getElementById('evoChain');
+
+    allChildren = evoDiv.getElementsByTagName('div').length;
+    console.log(allChildren); // 👉️ 4
+    if (allChildren < 3) {
+        document.getElementById('evoChain').style.justifyContent = 'space-around';
+    } else {
+        document.getElementById('evoChain').style.justifyContent = 'space-between';
+    }
+
+}

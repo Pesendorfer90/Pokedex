@@ -23,8 +23,8 @@ async function loadPokemonNameAndJSON() {
         let url = `https://pokeapi.co/api/v2/pokemon/${j}/`;
         let response = await fetch(url);
         arrayPokemon = await response.json();
-        pokemon.push(arrayPokemon['name'])
-        pokemonJSON.push(arrayPokemon)
+        pokemon.push(arrayPokemon['name']);
+        pokemonJSON.push(arrayPokemon);
     }
     loadJSON = false;
 }
@@ -43,7 +43,7 @@ async function loadPokemonInfo() {
             collectMainData();
             collectType();
             renderPokemonInfo();
-            checkForsecendType(id)
+            checkForsecendType(id);
         }
     }
     loading = false;
@@ -85,7 +85,7 @@ function collectType() {
 function checkForsecendType(id) {
     if (typeLength == '1') {
         if (loadMain == true) {
-            secondTypeMain = `secondType${id}`
+            secondTypeMain = `secondType${id}`;
             document.getElementById(secondTypeMain).classList.add("d-none");
         }
         if (loadFullInfo == true) {
