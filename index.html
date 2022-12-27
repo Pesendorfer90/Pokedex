@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="img/pokeball.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsiv.css">
     <link rel="stylesheet" href="fonts.css">
     <script src="script.js"></script>
     <script src="search.js"></script>
@@ -18,7 +19,7 @@
 </head>
 
 <body id="bodyContainer" onload="loadPokemonInfo(), loadPokemonNameAndJSON()">
-    <div class="header">
+    <div class="header" id="header">
         <img class="Header-img" src="img/pokemon-logo.png">
         <div>
             <input class="search" type="text" id="search" onkeydown="searchPokemon()" onclick="showSuggestion" placeholder="Find Pokemon">
@@ -26,12 +27,17 @@
             <div onclick="clearInput()" class="invisible-div d-none" id="invisible"></div>
         </div>
     </div>
-    
+
+    <div id="loader" class="loadin-div">
+        <span>Wait until the page is loaded...</span>
+        <img class="loading" src="img/pokeball.png">
+    </div>
+
+    <div class="card-container d-none" id="cardContainer"></div>
+        
     <div>
         <div id="fullInfoCard" class="full-info-card d-none"></div>
     </div>
-
-    <div class="card-container" id="cardContainer"></div>
 
     <div class="load-more d-none" id="loadMoreCards"><button class="load-btn" onclick="loadMore()">Load more</button></div>
 </body>

@@ -32,6 +32,7 @@ async function loadPokemonNameAndJSON() {
 
 // collect information for rendering
 async function loadPokemonInfo() {
+    document.getElementById('cardContainer').innerHTML = '';
     loading = true;
     for (let i = currentId; i < loadLimit; i++) {
         if (id < maxID) {
@@ -49,6 +50,7 @@ async function loadPokemonInfo() {
     loading = false;
     loadMain = false;
     checkScrollbar();
+    loadFully();
 }
 
 
@@ -120,4 +122,10 @@ function checkForsecendType(id) {
         </div>
     </div>
     `;
+    }
+
+
+    function loadFully() {
+        document.getElementById('cardContainer').classList.remove("d-none");
+        document.getElementById('loader').classList.add("d-none");
     }

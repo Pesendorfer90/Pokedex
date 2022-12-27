@@ -12,7 +12,7 @@ async function showFullInfo(infoId) {
         let url = `https://pokeapi.co/api/v2/pokemon/${infoId}/`;
         let response = await fetch(url);
         currentPokemon = await response.json();
-        document.body.style = "overflow: hidden"
+        checkWidth();
         collectMainData();
         collectType();
         collectBodyProperties();
@@ -34,10 +34,6 @@ function collectBodyProperties() {
     height = currentPokemon['height'];
     weight = currentPokemon['weight'];
     baseExperience = currentPokemon['base_experience'];
-
-    console.log('height', height);
-    console.log('weight', weight);
-    console.log('baseExperience', baseExperience);
 }
 
 
@@ -48,7 +44,6 @@ function getAbilities() {
         abilities += `${ability.charAt(0).toUpperCase() + ability.slice(1)}, `;
     }
     abilities = abilities.slice(0, -2); 
-    console.log('abilities', abilities);
 }
 
 
@@ -158,6 +153,7 @@ function getMoves() {
 // create an info card with all the details about the selected pokemeon
 function renderFullInfo(infoId) {
     document.getElementById('fullInfoCard').classList.remove("d-none");
+    document.getElementById('header').classList.add("z-index2");
     document.getElementById('fullInfoCard').innerHTML = /*html*/ `
     <div class="info-container">
         <div class="pokedex-main-info" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
@@ -184,9 +180,9 @@ function renderFullInfo(infoId) {
         </div>
         <div class="detail">
             <div class="detail-nav">
-                <p onclick="switchToAbout()">About</p>
-                <p onclick="switchToStats()">Base Stats</p>
-                <p onclick="switchToMoves()">Moves</p>
+                <a onclick="switchToAbout()" id="about-nav" class="font-weight">About</a>
+                <a onclick="switchToStats()" id="stats-nav" class="">Base Stats</a>
+                <a onclick="switchToMoves()" id="moves-nav" class="">Moves</a>
             </div>
         
             <div class="slider">
@@ -211,7 +207,7 @@ function renderFullInfo(infoId) {
                     </div>
                 </div>
 
-                <div class="base-stats-container z-index-1" id="baseStats">
+                <div class="base-stats-container z-index-1 d-none" id="baseStats">
                 <canvas class="stats-chart" id="baseStatsChart"></canvas>
                 </div>
 
@@ -227,6 +223,9 @@ function renderFullInfo(infoId) {
 function closeFullInfo() {
     document.getElementById('fullInfoCard').innerHTML = ''
     document.getElementById('fullInfoCard').classList.add("d-none");
+    document.getElementById('header').classList.remove("d-none");
+    document.getElementById('header').classList.remove("z-index2");
+    document.getElementById('cardContainer').classList.remove("d-none");
     document.body.style = "overflow: auto"
 }
 
@@ -235,6 +234,9 @@ function switchToAbout(){
     document.getElementById('about').classList.remove("d-none");
     document.getElementById('baseStats').classList.add("d-none");
     document.getElementById('moves').classList.add("d-none");
+    document.getElementById('about-nav').classList.add("font-weight");
+    document.getElementById('stats-nav').classList.remove("font-weight");
+    document.getElementById('moves-nav').classList.remove("font-weight");
 }
 
 
@@ -242,6 +244,9 @@ function switchToStats(){
     document.getElementById('about').classList.add("d-none");
     document.getElementById('baseStats').classList.remove("d-none");
     document.getElementById('moves').classList.add("d-none");
+    document.getElementById('about-nav').classList.remove("font-weight");
+    document.getElementById('stats-nav').classList.add("font-weight");
+    document.getElementById('moves-nav').classList.remove("font-weight");
     drawChart();
 }
 
@@ -250,4 +255,7 @@ function switchToMoves(){
     document.getElementById('about').classList.add("d-none");
     document.getElementById('baseStats').classList.add("d-none");
     document.getElementById('moves').classList.remove("d-none");
+    document.getElementById('about-nav').classList.remove("font-weight");
+    document.getElementById('stats-nav').classList.remove("font-weight");
+    document.getElementById('moves-nav').classList.add("font-weight");
 }

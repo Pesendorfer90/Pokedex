@@ -9,6 +9,17 @@ function checkScrollbar() {
 }
 
 
+function checkWidth() {
+    mainContainer = document.getElementById('bodyContainer').clientWidth;
+    if (mainContainer < 500) {
+        document.getElementById('header').classList.add("d-none");
+        document.getElementById('cardContainer').classList.add("d-none");
+    } else {
+        document.body.style = "overflow: hidden";
+    }
+}
+
+
 // check if the browser changes its size
 window.addEventListener('resize', function(){
     setTimeout(function () { checkScrollbar(); }, 1000);
@@ -24,6 +35,7 @@ window.onscroll = function (ev) {
 }
 
 
+// at 2 evolutions space around. at 3 evolutions space between
 function checkNumberOfEvolutions() {
     evoDiv = document.getElementById('evoChain');
 
