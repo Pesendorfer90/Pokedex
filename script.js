@@ -15,6 +15,7 @@ var loadJSON = false;
 let typeLength;
 let pokemonJSON = [];
 
+
 // load pokemon Names and all JSON in array's
 async function loadPokemonNameAndJSON() {
     loadJSON = true;
@@ -32,7 +33,6 @@ async function loadPokemonNameAndJSON() {
 
 // collect information for rendering
 async function loadPokemonInfo() {
-    document.getElementById('cardContainer').innerHTML = '';
     loading = true;
     for (let i = currentId; i < loadLimit; i++) {
         if (id < maxID) {
@@ -97,34 +97,35 @@ function checkForsecendType(id) {
 }
 
 
-    // create the divs with information for each Pokemon
-    function renderPokemonInfo() {
-        document.getElementById('cardContainer').innerHTML += /*html*/ `
-    <div class="pokedex-container">
-        <div class="pokedex-card" onclick="showFullInfo(${id})" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
-            <img class="bg-img" src="img/pokeball.png">
-            <div class="pokemon-ID">
-                <div class="ID-container">#${id}</div>
-            </div>
-
-            <div class="pokedex">
-                <div class="pokemon-info">
-                    <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
-                    <div class="pokemon-type">
-                        <span>${type.charAt(0).toUpperCase() + type.slice(1)}</span>
-                        <span id="secondType${id}">${secondType.charAt(0).toUpperCase() + secondType.slice(1)}</span>
-                    </div>
+// create the divs with information for each Pokemon
+function renderPokemonInfo() {
+    document.getElementById('cardContainer').innerHTML += /*html*/ `
+        <div class="pokedex-container">
+            <div class="pokedex-card" onclick="showFullInfo(${id})" style="background-color: var(--c-${currentPokemon['types'][0]['type']['name']})">
+                <img class="bg-img" src="img/pokeball.png">
+                <div class="pokemon-ID">
+                    <div class="ID-container">#${id}</div>
                 </div>
-                <div>
-                    <img class="pokemonImg" src="${currentPokemonImg}">
+
+                <div class="pokedex">
+                    <div class="pokemon-info">
+                        <h2>${pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}</h2>
+                        <div class="pokemon-type">
+                            <span>${type.charAt(0).toUpperCase() + type.slice(1)}</span>
+                            <span id="secondType${id}">${secondType.charAt(0).toUpperCase() + secondType.slice(1)}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <img class="pokemonImg" src="${currentPokemonImg}">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    `;
-    }
+        `;
+}
 
 
+// as soon as the main page is fully loaded, the loading information is hidden
     function loadFully() {
         document.getElementById('cardContainer').classList.remove("d-none");
         document.getElementById('loader').classList.add("d-none");

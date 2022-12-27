@@ -1,6 +1,6 @@
 chartStats = [];
 
-
+// draw chart from chartjs.org version 3.9.1
 function drawChart() {
     const ctx = document.getElementById('baseStatsChart').getContext('2d');
     const myChart = new Chart(ctx, {
@@ -50,6 +50,8 @@ function drawChart() {
     });
 }
 
+
+// collect the statistic numbers for the chart and add them to the array charStats
 function getStats() {
     chartStats = [];
     for (let i = 0; i < currentPokemon['stats'].length; i++) {

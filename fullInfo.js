@@ -5,13 +5,11 @@ let baseExperience;
 var loadFullInfo = false;
 
 
-
-async function showFullInfo(infoId) {
+// collects all data and shows results
+function showFullInfo(infoId) {
     if (loading == false, loadJSON == false) {
         loadFullInfo = true;
-        let url = `https://pokeapi.co/api/v2/pokemon/${infoId}/`;
-        let response = await fetch(url);
-        currentPokemon = await response.json();
+        currentPokemon = pokemonJSON[infoId - 1];
         checkWidth();
         collectMainData();
         collectType();
@@ -24,12 +22,11 @@ async function showFullInfo(infoId) {
         getStats();
         setTimeout(function () { checkNumberOfEvolutions(); }, 500);
         loadFullInfo = false;
-    }// else {
-    //     setTimeout(function () { showFullInfo(); }, 3000);
-    // }
+    }
 }
 
 
+// collect height and weight
 function collectBodyProperties() {
     height = currentPokemon['height'];
     weight = currentPokemon['weight'];
@@ -37,6 +34,7 @@ function collectBodyProperties() {
 }
 
 
+// collect abilities
 function getAbilities() {
     abilities = '';
     for (i = 0; i < currentPokemon.abilities.length; i++) {
@@ -47,6 +45,7 @@ function getAbilities() {
 }
 
 
+// get the link to the evolutions
 async function getEvolution() {
     let speciesUrl = currentPokemon['species']['url'];
     let species = await fetch(speciesUrl);
@@ -60,6 +59,7 @@ async function getEvolution() {
 }
 
 
+// check how many evolutions there are
 function getEvolutionChain(evolutionChainJSON) {
     let evolutionChain = evolutionChainJSON['chain']['evolves_to'];
     if (evolutionChain.length < 1) {
@@ -75,6 +75,7 @@ function getEvolutionChain(evolutionChainJSON) {
 }
 
 
+// get img and name for the first pokemon in the evolution chain
 function getFirstEvolutionStep(evolutionChainJSON) {
     let evolutionSteps = document.getElementById('evoChain');
     let firstEvoStepName = evolutionChainJSON['chain']['species']['name'];
@@ -91,6 +92,7 @@ function getFirstEvolutionStep(evolutionChainJSON) {
 }
 
 
+// get img and name for the second pokemon in the evolution chain
 function getSecondEvolutionStep(evolutionChainJSON) {
     let evolutionSteps = document.getElementById('evoChain');
     let secondEvoStepName = evolutionChainJSON['chain']['evolves_to'][0]['species']['name'];
@@ -107,6 +109,7 @@ function getSecondEvolutionStep(evolutionChainJSON) {
 }
 
 
+// get img and name for the third pokemon in the evolution chain
 function getThirdEvolutionStep(evolutionChainJSON) {
     let evolutionSteps = document.getElementById('evoChain');
     let thirdEvoStepName = evolutionChainJSON['chain']['evolves_to'][0]['evolves_to'][0]['species']['name'];
@@ -123,6 +126,7 @@ function getThirdEvolutionStep(evolutionChainJSON) {
 }
 
 
+// render the evolution chain into the fullinfocard
 function renderEvolutionStep(evoStepNameFormatted, evoPokemonImage, i) {
     return /*html*/ `
         <div class="evo-steps" onclick="showFullInfo(${i + 1})">
@@ -139,6 +143,7 @@ function noEvolutionChain() {
 }
 
 
+// collect and render moves
 function getMoves() {
     movesContainer = document.getElementById('moves');
     for (let i = 0; i < currentPokemon['moves'].length; i++) {
@@ -220,6 +225,7 @@ function renderFullInfo(infoId) {
 }
 
 
+// close full Info
 function closeFullInfo() {
     document.getElementById('fullInfoCard').innerHTML = ''
     document.getElementById('fullInfoCard').classList.add("d-none");
@@ -230,6 +236,7 @@ function closeFullInfo() {
 }
 
 
+// switch to about
 function switchToAbout(){
     document.getElementById('about').classList.remove("d-none");
     document.getElementById('baseStats').classList.add("d-none");
@@ -240,6 +247,7 @@ function switchToAbout(){
 }
 
 
+// switch to stats
 function switchToStats(){
     document.getElementById('about').classList.add("d-none");
     document.getElementById('baseStats').classList.remove("d-none");
@@ -251,6 +259,7 @@ function switchToStats(){
 }
 
 
+// switch to moves
 function switchToMoves(){
     document.getElementById('about').classList.add("d-none");
     document.getElementById('baseStats').classList.add("d-none");

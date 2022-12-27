@@ -1,14 +1,22 @@
 // check if scrollbar is true or false
 function checkScrollbar() {
-    mainContainer = document.getElementById('bodyContainer').clientHeight;
-    if (mainContainer < window.innerHeight) {
+    if ("ontouchstart" in document.documentElement) {
+        if (id < 151) {
         document.getElementById('loadMoreCards').classList.remove("d-none");
+        } else {
+            document.getElementById('loadMoreCards').classList.add("d-none");
+        }
     } else {
-        document.getElementById('loadMoreCards').classList.add("d-none");
+        mainContainer = document.getElementById('bodyContainer').clientHeight;
+        if (mainContainer < window.innerHeight) {
+            document.getElementById('loadMoreCards').classList.remove("d-none");
+        } else {
+            document.getElementById('loadMoreCards').classList.add("d-none");
+        }
     }
 }
 
-
+// check width for full Info. If width is < 500 hidde unused div's
 function checkWidth() {
     mainContainer = document.getElementById('bodyContainer').clientWidth;
     if (mainContainer < 500) {
@@ -40,7 +48,6 @@ function checkNumberOfEvolutions() {
     evoDiv = document.getElementById('evoChain');
 
     allChildren = evoDiv.getElementsByTagName('div').length;
-    console.log(allChildren); // 👉️ 4
     if (allChildren < 3) {
         document.getElementById('evoChain').style.justifyContent = 'space-around';
     } else {

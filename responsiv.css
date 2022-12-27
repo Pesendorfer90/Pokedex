@@ -1,21 +1,16 @@
- 
-
-
-/*500px*/
-@media(max-width: 500px) {
+ /*500px width or 738px height*/
+@media(max-width: 500px), ( max-height: 738px) {
 
     .header {
         justify-content: space-around;
         align-items: center;
-
-        /* flex-direction: column;
-        height: 130px; */
     }
 
     .Header-img {
         width: 150px;
     }
     
+    /* full info card start */
     .full-info-card {
         position: unset;
         width: unset;
@@ -35,6 +30,7 @@
         z-index: 3;
         top: 0;
         overflow: auto;
+        overflow-x: hidden;
         background-color: rgb(236, 236, 236);
     }
 
@@ -58,16 +54,15 @@
         overflow-y: auto;
         overflow-x: hidden;
     }
+    /* full info card end */
 }
 
 @media(max-width:380px) {
-
+    
+    /* header start */
     .header {
         justify-content: space-around;
         align-items: center;
-
-        /* flex-direction: column;
-        height: 130px; */
     }
 
     .Header-img {
@@ -84,10 +79,12 @@
     #search-result {
         width: 130px;
     }
+    /* header end */
 }
 
 @media(max-width:360px) {
 
+    /* header start */
     .header {
         height: 80px;
     }
@@ -110,11 +107,12 @@
     #search-result p  {
         font-size: 0.8em;
     }
+    /* header end */
 
+    /* main content start */
     .pokedex-card {
         height: 110px;
         width: 15em;
-        /* background-color: rgb(249, 217, 122); */
         color: white;
         display: flex;
         flex-direction: column;
@@ -152,9 +150,10 @@
         width: 100px;
         height: 100px;
     }
+    /* main content end */
 
     
-    /* full info Top */
+    /* full info Top start */
     .pokedex-main-info {
         height: 360px;
     }
@@ -179,10 +178,10 @@
         bottom: 0px;
         z-index: 2;
     }
-    /* full info Top */
+    /* full info Top end */
 
 
-    /* full info Bottom */
+    /* full info Bottom start */
     .about-container {
         padding-left: 10px;
         padding-right: 10px;
@@ -205,6 +204,6 @@
         font-size: 0.85em;
     }
 
-    /* full info Bottom */
+    /* full info Bottom end */
 }
 

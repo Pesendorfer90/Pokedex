@@ -3,6 +3,7 @@ function searchPokemon() {
     setTimeout(function () {getAllCharacter();}, 10);
 }
 
+
 // collect value from inputfield
 function getAllCharacter() {
     let search = document.getElementById('search').value;
@@ -11,6 +12,7 @@ function getAllCharacter() {
 
     showNames(search)
 }
+
 
 // show my suggestions div if a character is found
 function showSuggestion(search) {
@@ -26,6 +28,7 @@ function showSuggestion(search) {
      }
 }
 
+
 // show search results unter input field
 function showNames(search) {
     let list = document.getElementById('search-result');
@@ -40,6 +43,7 @@ function showNames(search) {
 }
 
 
+// clear the inputfield
 function clearInput() {
     document.getElementById('search').value = '';
     searchPokemon();
