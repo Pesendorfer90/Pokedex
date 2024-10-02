@@ -1,9 +1,16 @@
-chartStats = [];
+let chartStats = [];
+let myChart
 
 // draw chart from chartjs.org version 3.9.1
+// he drawChart function renders a bar chart to display the Pokémon's base stats using the Chart.js library.
+// It checks if an existing chart (myChart) exists and destroys it to prevent reusing the canvas.
+// Then, it creates a new horizontal bar chart using data from chartStats for the Pokémon's stats
+// (HP, Attack, Defense, Sp-Attack, Sp-Defense, Speed). The chart has customized background colors
+// for each stat, hides the legend, and disables tooltips. It also shows data labels on each bar.
 function drawChart() {
+    if (myChart) { myChart.destroy(); }
     const ctx = document.getElementById('baseStatsChart').getContext('2d');
-    const myChart = new Chart(ctx, {
+    myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: ['HP', 'Attack', 'Defense', 'Sp-Attack', 'Sp-Defense', 'Speed'],
@@ -51,7 +58,9 @@ function drawChart() {
 }
 
 
-// collect the statistic numbers for the chart and add them to the array charStats
+// The getStats function collects the base stats of the current Pokémon and stores them in the chartStats array.
+// It iterates through the stats array of the currentPokemon object, extracts each base_stat and
+// pushes it into the chartStats array for further use, such as rendering charts or visualizations.
 function getStats() {
     chartStats = [];
     for (let i = 0; i < currentPokemon['stats'].length; i++) {
